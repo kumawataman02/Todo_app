@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_2/Pages/DbHelper.dart';
 
 class homepage extends StatefulWidget{
   @override
@@ -10,6 +11,38 @@ class _homepageState extends State<homepage> {
 
   TextEditingController _tasks = TextEditingController();
   TextEditingController _dec = TextEditingController();
+
+  List<Map<String,dynamic>> item = [];
+
+  DbHelper? dbRef;
+
+  @override
+  void initState() {
+    super.initState();
+    dbRef = DbHelper.getInstance;
+    getNotes();
+  }
+
+  addNotes({required String tasks,required String dec}){
+    setState(() {
+      dbRef!.addNote(mTasks:tasks, mDec:dec);
+
+    });
+  }
+  getNotes() async{
+    List<Map<String,dynamic>> data = await dbRef!.getNote();
+    setState(() {
+      item = data;
+    });
+
+  }
+
+  deleteNote({required int value}){
+    setState(() {
+      dbRef!.deletNote(Id:value);
+    });
+
+  }
 
 
   @override
@@ -23,11 +56,16 @@ class _homepageState extends State<homepage> {
 
       ),
 
-      body:ListView.builder(itemBuilder:(context,index){
+      body:ListView.builder(
+          itemCount:item.length,
+          itemBuilder:(context,index){
         return ListTile(
-          title:Text(""),
-          subtitle: Text(""),
-          trailing:IconButton(onPressed:(){}, icon:Icon(Icons.delete)),
+          title:Text(item[index]['tasks']),
+          subtitle: Text(item[index]['dec']),
+          trailing:IconButton(onPressed:(){
+            deleteNote(value:item[index]['id']);
+            getNotes();
+          }, icon:Icon(Icons.delete)),
         );
       }),
 
@@ -82,7 +120,10 @@ class _homepageState extends State<homepage> {
                 Container(
                   width:340,
                   height: 50,
-                  child:ElevatedButton(onPressed:(){}, child:Text("Create",style:TextStyle(color:Colors.black,fontSize: 20),)),
+                  child:ElevatedButton(onPressed:(){
+                    addNotes(tasks:_tasks.text, dec:_dec.text);
+                    getNotes();
+                  }, child:Text("Create",style:TextStyle(color:Colors.black,fontSize: 20),)),
                 )
               ],
             ),
