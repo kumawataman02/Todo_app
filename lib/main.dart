@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_2/Pages/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner:false,
       theme: ThemeData(
+
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -36,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-
-    );
+     body:homepage());
   }
 }
