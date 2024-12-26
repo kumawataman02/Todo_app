@@ -57,17 +57,23 @@ class _homepageState extends State<homepage> {
       ),
 
       body:ListView.builder(
-          itemCount:item.length,
-          itemBuilder:(context,index){
-        return ListTile(
-          title:Text(item[index]['tasks']),
-          subtitle: Text(item[index]['dec']),
-          trailing:IconButton(onPressed:(){
-            deleteNote(value:item[index]['id']);
-            getNotes();
-          }, icon:Icon(Icons.delete)),
-        );
-      }),
+            itemCount:item.length,
+            itemBuilder:(context,index){
+          return Card(
+            elevation:4,
+            color:Colors.black,
+            margin:EdgeInsets.all(10),
+            child: ListTile(
+              title:Text(item[index]['tasks'],style:TextStyle(color:Colors.white),),
+              subtitle: Text(item[index]['dec'],style:TextStyle(color:Colors.white),),
+              trailing:IconButton(onPressed:(){
+                deleteNote(value:item[index]['id']);
+                getNotes();
+              }, icon:Icon(Icons.delete,color:Colors.white,size:30,)),
+            ),
+          );
+        }),
+
 
       floatingActionButton:FloatingActionButton(onPressed:(){
 
